@@ -1,0 +1,46 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make-debug",
+            "type": "shell",
+            "command": "mkdir",
+            "args": [ "-p", "debug" ],
+        },
+        {
+            "label": "cmake",
+            "type": "shell",
+            "command": "cmake",
+            "args": [ "-DCAMKE_BUILD_TYPE=Debug", "-G", "CodeBlocks - Unix Makefiles", ".." ],
+            "options": {
+                "cwd": "${workspaceFolder}/debug"
+            },
+            "dependsOn": [ "make-debug" ]
+        },
+        {
+            "label": "compile",
+            "type": "shell",
+            "command": "make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/debug"
+            },
+            "dependsOn": [ "cmake" ]
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "debug/a.out",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "dependsOn": [ "compile" ]
+        }
+    ]
+}
