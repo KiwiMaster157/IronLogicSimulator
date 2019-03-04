@@ -8,6 +8,8 @@
 namespace iron
 {
 
+//Requirement: std::less<UUID> is well defined
+//Requirement: Efficient pass-by-value
 using UUID = unsigned long long; 
 
 namespace core
@@ -16,7 +18,7 @@ namespace core
 struct Pin
 {
     UUID uuid;
-    short index;
+    short index = -1;
 };
 
 struct Connection
@@ -42,8 +44,6 @@ struct Port
 struct State
 {
     Behavior* behavior;
-    //or 
-    //std::string behaviorID;
     std::vector<Pin> inputs;
     std::vector<Port> outputs;
     std::vector<Signal> state;

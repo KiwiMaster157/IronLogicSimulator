@@ -5,7 +5,9 @@
 
 namespace iron
 {
-
+namespace core
+{
+    
 struct Instruction
 {
     ///Pull list from document at school!!!
@@ -24,4 +26,5 @@ struct Instruction
 
 using Script = std::vector<Instruction>;
 
+}
 }

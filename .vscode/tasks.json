@@ -22,20 +22,21 @@
         {
             "label": "compile",
             "type": "shell",
-            "command": "make",
+            "command": "cmake",
+            "args": [ "--build", ".", "--target", "Fe" ],
+            "options": {
+                "cwd": "${workspaceFolder}/debug"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "options": {
-                "cwd": "${workspaceFolder}/debug"
             },
             "dependsOn": [ "cmake" ]
         },
         {
             "label": "run",
             "type": "shell",
-            "command": "debug/a.out",
+            "command": "debug/Fe",
             "group": {
                 "kind": "test",
                 "isDefault": true

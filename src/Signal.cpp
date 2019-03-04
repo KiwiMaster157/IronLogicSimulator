@@ -1,5 +1,9 @@
 #include "Signal.h"
 
+//If the orange circle is filled, it means you're following my screen.
+//If the orange circle is not filled, it means you're viewing independednt of me.
+//The orange color just indicates what color my cursor is on your screen.
+
 namespace iron
 {
 
@@ -396,7 +400,7 @@ template<Voltage fn(Voltage, Voltage)>
 static Signal applySingleSignalTransform(const Signal& a, Voltage b)
 {
     Signal retval;
-    retval.resize(a.size());
+    retval.data.resize(a.size());
     for(int i = 0; i < a.size(); i++)
     {
         retval[i] = fn(a[i], b); 
@@ -419,7 +423,7 @@ static Signal applySignalTransform(const Signal& a, const Signal& b)
     }
 
     Signal retval;
-    retval.resize(a.size());
+    retval.data.resize(a.size());
     for(int i = 0; i < a.size(); i++)
     {
         retval[i] = fn(a[i], b[i]); 

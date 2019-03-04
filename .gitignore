@@ -1,15 +1,7 @@
 # .gitignore
 
 # Idea
-    .idea/
+.idea/
 
 # CMake
-CMakeFiles/
-CMakeScripts/
-Makefile
-*.cmake
-cmake-build-debug/
-CMakeCache.txt
-
-# Code::Blocks
-*.cbp
+debug/

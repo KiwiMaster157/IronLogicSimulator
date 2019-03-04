@@ -11,16 +11,6 @@ namespace iron
 namespace core
 {
 
-enum class ErrorCode
-{
-    NoError,
-    NotFound,
-    NegativeIndex,
-    IndexExcedesBounds,
-    SignalDimensionMismatch,
-    InputOccupied
-};
-
 class Simulator
 {
 public:
@@ -75,6 +65,16 @@ private:
     std::set<UUID> m_filling;
 
     const Signal m_defaultReturn;
+
+    //Parameter 'when' may be used in the future for ordering.
+    //For now, when = 1
+    void m_pushJob(UUID job, int when);
+
+    //Inout parameter: job
+    //Returns true if a job is available
+    bool m_topJob(UUID& job);
+    bool m_popJob(UUID& job);
+
 };
 
 }

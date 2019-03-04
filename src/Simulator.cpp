@@ -12,7 +12,32 @@ bool Simulator::checkUUID(UUID lookup) const
 
 ErrorCode Simulator::addComponent(const std::string& behavior, UUID lookup)
 {
+    if(m_substates.count(lookup))
+    {
+        //report error
+        return ErrorCode::UuidTaken;
+    }
 
+    decltype(m_types)::iterator biter = m_types.find(behavior);
+    if(biter == m_types.end())
+    {
+        //report error
+        return ErrorCode::BehaviorNotFound;
+    }
+    
+    State inserted;
+    inserted.behavior = &biter->second;
+    inserted.inputs.resize(inserted.behavior->inputSizes.size());
+    inserted.outputs.resize(inserted.behavior->outputSizes.size());
+    for(int i = 0; i < inserted.outputs.size(); i++)
+        inserted.outputs[i].value.data.resize(inserted.behavior->outputSizes[i]);
+    inserted.state.resize(inserted.behavior->internalSizes.size());
+    for(int i = 0; i < inserted.state.size(); i++)
+        inserted.state[i].data.resize(inserted.behavior->internalSizes[i]);
+
+    m_substates.insert(std::make_pair(lookup, std::move(inserted)));
+
+    return ErrorCode::NoError;
 }
 
 ErrorCode Simulator::removeComponent(UUID lookup)
@@ -23,10 +48,9 @@ ErrorCode Simulator::removeComponent(UUID lookup)
         //report error
         return ErrorCode::NotFound;
     }
-    else
-    {
-        m_substates.erase(iter);
-    }
+
+    m_substates.erase(iter);
+
     return ErrorCode::NoError;
 }
 
@@ -38,8 +62,7 @@ ErrorCode Simulator::touch(UUID lookup)
         //report error
         return ErrorCode::NotFound;
     }
-
-    m_emptying.insert(lookup);
+    m_pushJob(lookup, 0);
     return ErrorCode::NoError;
 }
 
@@ -146,7 +169,7 @@ std::pair<const Signal&, ErrorCode> Simulator::peekInput(UUID lookup, short inde
         return std::make_pair(m_defaultReturn, ErrorCode::IndexExcedesBounds);
     }
     
-    return peekOutput(iter->second.inputs[index]);
+    return peekOutput(iter->second.inputs[index]);//Doing this may make error reporting more complex, but follows DRY
 }
 
 std::pair<const Signal&, ErrorCode> Simulator::peekInput(Pin input) const
@@ -204,7 +227,29 @@ ErrorCode Simulator::moveConnectionDestination(const Connection& connect, Pin ne
     return moveConnectionDestination(connect.source, connect.destination, newDestination);
 }
 
+//=====Implementation methods=====
 
+void Simulator::m_pushJob(UUID job, int when)
+{
+    m_filling.insert(job);
+}
+
+bool Simulator::m_topJob(UUID& job)
+{
+    if(m_emptying.empty())
+        return false;
+    job = *m_emptying.begin();
+    return true;
+}
+
+bool Simulator::m_popJob(UUID& job)
+{
+    if(m_emptying.empty())
+        return false;
+    job = *m_emptying.begin();
+    m_emptying.erase(m_emptying.begin());
+    return true;
+}
 
 }
 }
