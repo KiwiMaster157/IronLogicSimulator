@@ -1,0 +1,14 @@
+# CLI COMMANDS
+
+cli.command.usage=USAGE:
+cli.command.exit.usage=exit
+cli.command.exit.desc=Exits the simulator.
+
+cli.command.help.usage=[COMMAND] help
+cli.command.help.desc=Displays this help page or the help entry for COMMAND.
+
+cli.command.add.usage=add [UUID |[UUID] NAME] [TYPE]
+cli.command.add.desc1=Adds a COMPONENT to the active CIRCUIT or a
+cli.command.add.desc2=CIRCUIT to the project with a uuid of UUID
+cli.command.add.desc3=or the next available id and the Name of NAME.
+

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreCircuit.h"
+#include "Errors.h"
 
 #include <map>
 #include <set>
@@ -24,6 +25,11 @@ public:
     ErrorCode touch(UUID lookup);
     ErrorCode modifyInternal(UUID lookup, int index, const Signal& value);
     ErrorCode modifyInternalQuiet(UUID lookup, int index, const Signal& value);
+
+    ErrorCode setOutput(UUID lookup, short index, const Signal& value);
+    ErrorCode setOutput(UUID lookup, short index, Signal&& value);
+    ErrorCode setOutput(Pin output, const Signal& value);
+    ErrorCode setOutput(Pin output, Signal&& value);
 
     std::pair<const Signal&, ErrorCode> peekInternal(UUID lookup, int index) const;
     

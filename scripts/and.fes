@@ -1,0 +1,8 @@
+def $0: 8
+def $1: 8
+def  0: 8
+def @0: 8
+
+and 0,$0,$1
+set @0,0
+end

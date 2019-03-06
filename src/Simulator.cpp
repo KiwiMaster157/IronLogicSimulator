@@ -1,4 +1,5 @@
 #include "Simulator.h"
+#include "Errors.h"
 
 namespace iron
 {

@@ -37,6 +37,27 @@ Console::Console(Args args)
         this->prompt = "Fe" + std::to_string(ver.major) + ">>>";
     else
         this->prompt = "Fe" + std::to_string(ver.major) + ".Debug>>>";
+
+
+
+    this->commands.emplace("exit", Command(
+            "exit",
+            [](std::istream &in, std::ostream &out, std::vector<std::string> &args){
+                return 0;
+            }
+            ));
+    this->commands.emplace("help", Command(
+            "help",
+            [](std::istream &in, std::ostream &out, std::vector<std::string> &args){
+                out << "HELP PAGE" << std::endl;
+                return 0;
+            }
+            ));
+    this->commands.emplace("add", Command(
+            "add"
+            ))
+
+
 }
 
 int Console::run()
@@ -46,9 +67,12 @@ int Console::run()
     std::stringstream ss;
     do
     {
+        // Get input
         sout << prompt;
         std::string input;
         std::getline(sin, input);
+
+        // Reformat for parsing
         ss.str(input);
         std::vector<std::string> cmd;
         while(ss.rdbuf()->in_avail())
@@ -57,10 +81,15 @@ int Console::run()
             ss >> token;
             cmd.push_back(token);
         }
-        for(auto part : cmd)
-            sout << part << std::endl;
+
+        // Parse
     } while (run);
     return 0;
+}
+
+void Console::help()
+{
+    sout << "\nHELP PAGE" << std::endl;
 }
 
 void Console::flash()

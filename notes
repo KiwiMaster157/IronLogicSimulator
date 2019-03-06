@@ -1,0 +1,171 @@
+Interface
+    GUI
+        -M- Menu
+            -M- File
+                -M- New (ctrl+n)
+                -M- Open (ctrl+o)
+                -S- Open Recent
+                -C- Close (ctrl+shift+w)
+                -M- Save (ctrl+s)
+                -M- Save As (ctrl+shift+s)
+                -C- Export Image
+                -C- Print (ctrl+p)
+                -M- Preferences
+                -M- Exit (alt+f4)
+            -M- Edit
+                -M- Undo (ctrl+z)
+                -M- Redo (ctrl+y)
+                -M- Cut (ctrl+x)
+                -M- Copy (ctrl+c)
+                -M- Paste (ctrl+v)
+                -M- Delete (delete)
+                -M- Duplicate (ctrl+d)
+                -M- Select All (ctrl+a)
+                -S- Move Selection (ctrl-up;ctrl+left;ctrl+right;ctrl+down)
+                -S- Raise to Top (ctrl-shift-up)
+                -S- Lower to Bottom (ctrl-shift-down)
+                -C- Add Vertex
+                -C- Remove Vertex
+            -M- Project
+                -M- Add Circuit
+                -S- Load Library
+                -S- Unload Libraries
+                -S- Move Circuit up
+                -S- Move Circuit down
+                -M- Set as Main Circuit
+                -M- Remove Circuit
+                -S- Revert to Default Appearence
+                -?- View Toolbox
+                -M- View Simulation Tree
+                -M- Edit Circuit Layout
+                -M- Edit Circuit Appearence
+                -S- View Circuit Statistics
+                -M- Options
+            -M- Simulate
+                -^- Start (ctrl+e)
+                -^- Reset (ctrl+r)
+                -S- Step (ctrl+i)
+                -C- VHDL Simulation
+                -C- Reset VHDL Simulation
+                -S- Go Out to State
+                -S- Go In to State
+                -^- Tick Once (ctrl+t)
+                -?- CLK Tick Once (f2)
+                -^- Ticks Enabled
+                -^- Tick Frequency
+                    ** Common Real Life Frequencies
+                        2^n aHz * 10^m bHz
+                        10^n aHz
+                        BAUD, Ethernet, USB
+                -?- Chronogram
+                -?- Test Vector
+                -?- Assembly Viewer
+            -W- FPGAMenu
+                -^- BoardEditor
+                -^- FPGA Commander
+            -?- Window
+                -W- Minimize
+                -W- Maximize
+                -W- Close
+                -C- <Project Name>
+            -M- Help
+                -C- Tutorial
+                -^- User Guide
+                -S- Library Reference
+                -^- About         
+        -M- Appearence
+            -C- Bezier *Path uses 3rd order Bezier between points
+        -M- Graphics
+            -^- Line Class (Shape uses GLs TRIAGLE_STRIP)
+    CLI
+        Pin = UUID/Component[.Port]     **Identifies a port
+        Component = UUID/Name           **Identifies a Component
+        Circuit = UUID/Name             **Identifies a Circuit
+        [Command] help                  **Prints Help page
+        load File                       **Loads Circuit
+        save [File]                     **Saves Circuit to File
+        start/run [Circuit]             **Starts Simulation
+        stop [Circuit]                  **Halts Simulation
+        step [Circuit]                  **Steps Simulation
+        add Component/Circuit Type      **Adds Component/Circuit
+        remove Component/Circuit        **Remove Component/Circuit
+        connect {Pin, Pin}              **Connect two Ports
+        disconnect {Pin, Pin}           **Disconnect two Ports
+        reconnect {Pin, Pin} {Pin Pin}  **Moves a connection
+        set Pin Level                   **Sets a Port Level
+        select Circuit                  **Sets working circuit
+        list [Circuit|"all"|"circuits"] **Lists Components and Circuits
+Structure
+Simulator
+Scripts
+    -S- Intuitive
+    -S- Create Script from Circuit
+    -C- Create Circuit from Script
+    -S- Appearence files (xml,json,yaml)
+Components
+    -M- Wiring
+        -M- Splitter
+        -M- Pin 
+        -S- Probe
+        -S- Tunnel
+        -?- Pull Resistor
+        -M- Clock
+        -?- Constant
+        -?- Power
+        -?- Ground
+        -?- Transistor
+        -?- Transmission Gate
+        -M- Bit Extender
+    -M- Gates
+        -^- INVERTER
+        -^- BUFFER
+        -^- AND
+        -^- OR
+        -^- NAND
+        -^- NOR
+        -^- XOR
+        -^- XNOR
+        -^- Controlled BUFFER
+        -^- Controlled INVERTER
+        -S- Odd Parity
+        -S- Even Parity
+    -S- Plexers
+        -^- MUX
+        -^- DEMUX
+        -^- Decoder
+        -^- Priority Encoder
+        -?- Bit Selector
+    -S- Arithmatic
+        -^- Adder
+        -C- Subtractor
+        -^- Multiplier
+        -^- Divider
+        -^- Negator
+        -^- Comparator
+        -^- Shifter
+        -?- Bit Adder
+        -?- Bit Finder
+    -S- Memory
+        -^- D FF
+        -^- T FF
+        -^- JK FF
+        -^- SR FF
+        -^- Register
+        -^- Counter
+        -^- Shift Register
+        -C- Rand Generator
+        -^- RAM
+        -^- ROM
+    -M- IO
+        -^- Button
+        -C- Dip Switch
+        -C- Joystick
+        -S- Keyboard
+        -^- LED
+        -S- Port IO
+        -?- Reptar Local Bus
+        -S- RGB LED
+        -S- 7Seg Display
+        -S- Hex Digit Display
+        -S- LED Matrix
+        -S- TTY

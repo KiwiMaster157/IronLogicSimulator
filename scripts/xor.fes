@@ -1,0 +1,9 @@
+mvi r0,#0
+mvi r1,#1
+xor 0,$r0,$r1
+inc r0
+inc r1
+jeq r1 $# -4
+set @0,0
+
+end

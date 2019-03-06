@@ -62,8 +62,6 @@ endif()
 
 # define the list of search paths for headers and libraries
 
-message("${SFML_ROOT}")
-
 set(FIND_SFML_PATHS
         ${SFML_ROOT}
         $ENV{SFML_ROOT}
@@ -80,8 +78,6 @@ set(FIND_SFML_PATHS
 find_path(SFML_INCLUDE_DIR SFML/Config.hpp
         PATH_SUFFIXES include
         PATHS ${FIND_SFML_PATHS})
-
-message("${SFML_INCLUDE_DIR}")
 
 # check the version number
 set(SFML_VERSION_OK TRUE)

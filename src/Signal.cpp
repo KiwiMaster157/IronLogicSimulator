@@ -38,7 +38,7 @@ const Voltage& Signal::operator[](int index) const
     return data[index];
 }
 
-Voltage normalize(Voltage value)
+Voltage normalize(Voltage value) noexcept
 {
     switch(value.level)
     {
@@ -154,12 +154,12 @@ std::string sig2str(const Signal& sig)
 }
 
 //=====Comparison operators=====
-bool operator==(Voltage lhs, Voltage rhs)
+bool operator==(Voltage lhs, Voltage rhs) noexcept
 {
     return lhs.level == rhs.level;
 }
 
-bool operator!=(Voltage lhs, Voltage rhs)
+bool operator!=(Voltage lhs, Voltage rhs) noexcept
 {
     return !(lhs == rhs);
 }
@@ -182,10 +182,10 @@ bool operator!=(const Signal& lhs, const Signal& rhs)
     return !(lhs == rhs);
 }
 
-//=====Static implementations=====
+//=====Implementations=====
 
 //Valid returns: High, Low, Error
-static Voltage andVoltage(Voltage a, Voltage b)
+Voltage andVoltage(Voltage a, Voltage b) noexcept
 {
     switch(a.level)
     {
@@ -226,7 +226,7 @@ static Voltage andVoltage(Voltage a, Voltage b)
 }
 
 //Valid returns: High, Low, Error
-static Voltage orVoltage(Voltage a, Voltage b)
+Voltage orVoltage(Voltage a, Voltage b) noexcept
 {
     switch(a.level)
     {
@@ -267,7 +267,7 @@ static Voltage orVoltage(Voltage a, Voltage b)
 }
 
 //Valid returns: High, Low, Error
-static Voltage xorVoltage(Voltage a, Voltage b)
+Voltage xorVoltage(Voltage a, Voltage b) noexcept
 {
     switch(a.level)
     {
@@ -324,8 +324,8 @@ static Voltage xorVoltage(Voltage a, Voltage b)
     return Voltage();
 }
 
-//Valid returns: High, Low, Error
-static Voltage mergeVoltage(Voltage a, Voltage b)
+//Valid returns: Any
+Voltage mergeVoltage(Voltage a, Voltage b) noexcept
 {
     switch(a.level)
     {
@@ -396,6 +396,26 @@ static Voltage mergeVoltage(Voltage a, Voltage b)
     return Voltage::Error;
 }
 
+//Valid outputs: High, Low, Error
+Voltage inverseVoltage(Voltage arg) noexcept
+{
+    switch(arg.level)
+    {
+    case Voltage::Null:
+    case Voltage::Float:
+    case Voltage::Error:
+    case Voltage::PullError:
+        return Voltage::Error;
+    case Voltage::Low:
+    case Voltage::PullLow:
+        return Voltage::High;
+    case Voltage::High:
+    case Voltage::PullHigh:
+        return Voltage::Low;
+    }
+    return Voltage::Error;
+}
+
 template<Voltage fn(Voltage, Voltage)>
 static Signal applySingleSignalTransform(const Signal& a, Voltage b)
 {
@@ -433,7 +453,7 @@ static Signal applySignalTransform(const Signal& a, const Signal& b)
 }
 
 //======Binary Voltage Operators=====
-
+/*
 Voltage operator&(Voltage lhs, Voltage rhs)
 {
     return andVoltage(lhs, rhs);
@@ -569,5 +589,6 @@ Signal& operator%=(Signal& lhs, Voltage rhs)
     lhs = lhs % rhs;
     return lhs;
 }
+//*/
 
 }

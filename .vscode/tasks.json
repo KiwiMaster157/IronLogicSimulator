@@ -34,7 +34,18 @@
             "dependsOn": [ "cmake" ]
         },
         {
-            "label": "run",
+            "label": "run cli",
+            "type": "shell",
+            "command": "debug/Fe",
+            "args": [ "-c" ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "dependsOn": [ "compile" ]
+        },
+        {
+            "label": "run gui",
             "type": "shell",
             "command": "debug/Fe",
             "group": {
