@@ -25,19 +25,28 @@ struct Voltage
     Voltage(Level initial);
 };
 
-struct Signal
+constexpr int SIGNAL_STACK_CAPACITY = (sizeof(void*) + sizeof(int)) / sizeof(Voltage);
+    
+class Signal
 {
-    std::vector<Voltage> data;
-
+    int m_size = 0;
+    union
+    {
+        struct{int capacity, Voltage* ptr;} heap;
+        Voltage stack[SIGNAL_STACK_CAPACITY];
+    } m_data;
+public:  
     Signal() = default;
     Signal(const Signal&) = default;
     Signal(Signal&&) = default;
 
-    Signal& operator=(Signal src);
-
+    Signal& operator=(const Signal& src);
+    Signal& operator=(Signal&& src);
+    
     Signal(int size, Voltage initial);
 
     int size() const;
+    void resize(int newSize);
 
     Voltage& operator[](int index);
     const Voltage& operator[](int index) const;
