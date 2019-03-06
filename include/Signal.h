@@ -36,9 +36,11 @@ class Signal
         Voltage stack[SIGNAL_STACK_CAPACITY];
     } m_data;
 public:  
-    Signal() = default;
-    Signal(const Signal&) = default;
-    Signal(Signal&&) = default;
+    Signal();
+    Signal(const Signal&);
+    Signal(Signal&&);
+    
+    ~Signal();
 
     Signal& operator=(const Signal& src);
     Signal& operator=(Signal&& src);
