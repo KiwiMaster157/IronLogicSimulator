@@ -36,37 +36,39 @@ namespace iron {
 
 namespace cli {
 
+using Action = std::function<int(std::wistream*, std::wostream*, std::vector<std::wstring>&)>;
+
 class Command {
 public:
-    Command(const std::string &name, std::function<int(std::wistream&, std::wostream&, std::vector<std::wstring> &args)> action,
-            std::wistream& in, std::wostream& out) {
+    Command(const std::wstring &name, Action action, std::wistream* in, std::wostream* out) {
         this->name = name;
         this->action = action;
         this->in = in;
         this->out = out;
     }
     int run() {
-        return this->action(this->);
+        return this->action(this->in, this->out, this->args);
     }
-    void add_arg(std::string &arg) { this->args.push_back(arg); }
-    std::string &get_name() { return this->name; }
+    void add_arg(std::wstring &arg) { this->args.push_back(arg); }
+    void clear_args() { this->args.clear(); }
+    std::wstring &get_name() { return this->name; }
 private:
-    std::string name;
-    std::function<int(std::wistream&, std::wostream&, std::vector<std::wstring>&)> action;
-    std::vector<std::string> args;
-    std::wistream &in;
-    std::wostream &out;
+    std::wstring name;
+    Action action;
+    std::vector<std::wstring> args;
+    std::wistream *in;
+    std::wostream *out;
 };
 
 class Console
 {
     private:
-        std::wostream &sout = std::wcout;
-        std::wistream &sin = std::wcin;
-        std::string prompt;
+        std::wostream *sout = &std::wcout;
+        std::wistream *sin = &std::wcin;
+        std::wstring prompt;
         Args::Mode mode = Args::Mode::CLI;
         Version ver;
-        std::unordered_map<std::string,Command> commands;
+        std::unordered_map<std::wstring,Command> commands;
 
     public:
         Console(Args args);

@@ -34,11 +34,11 @@ Console::Console(Args args)
     this->ver = args.version;
     this->mode = args.mode;
     if(mode == Args::Mode::CLI)
-        this->prompt = "Fe" + std::to_string(ver.major) + ">>>";
-    else
-        this->prompt = "Fe" + std::to_string(ver.major) + ".Debug>>>";
+        this->prompt = L"Fe" + std::to_wstring(ver.major) + L">>>";
+    else    // Derecated
+        this->prompt = L"Fe" + std::to_wstring(ver.major) + L".Debug>>>";
 
-
+    /*
 
     this->commands.emplace("exit", Command(
             "exit",
@@ -56,7 +56,7 @@ Console::Console(Args args)
     this->commands.emplace("add", Command(
             "add"
             ))
-
+    */
 
 }
 
@@ -64,20 +64,21 @@ int Console::run()
 {
     flash();
     bool run = true;
-    std::stringstream ss;
+    run = false; // Deprecated - just prevents infinite loop
+    std::wstringstream ss;
     do
     {
         // Get input
-        sout << prompt;
-        std::string input;
-        std::getline(sin, input);
+        *sout << prompt;
+        std::wstring input;
+        std::getline(*sin, input);
 
         // Reformat for parsing
         ss.str(input);
-        std::vector<std::string> cmd;
+        std::vector<std::wstring> cmd;
         while(ss.rdbuf()->in_avail())
         {
-            std::string token;
+            std::wstring token;
             ss >> token;
             cmd.push_back(token);
         }
@@ -89,14 +90,14 @@ int Console::run()
 
 void Console::help()
 {
-    sout << "\nHELP PAGE" << std::endl;
+    *sout << L"\nHELP PAGE" << std::endl;
 }
 
 void Console::flash()
 {
-    sout << "\n";
-    sout << "Fe - " << std::to_string(ver);
-    sout << "\n" << std::endl;
+    *sout << L"\n";
+    *sout << L"Fe - " << std::to_wstring(ver);
+    *sout << L"\n" << std::endl;
 }
 
 }

@@ -28,7 +28,11 @@ if(SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
     target_link_libraries(Fe ${SFML_LIBRARIES})
 endif()
+#[[
 if(Log4cxx_FOUND)
     include_directories(${Log4cxx_INCLUDE_DIR})
     target_link_libraries(Fe ${Log4cxx_LIBRARY})
 endif()
+]]
+include_directories(/usr/include)
+target_link_libraries(Fe /usr/lib64/libglog.so)
